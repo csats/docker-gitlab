@@ -1,3 +1,21 @@
+# C-SATS Forked, Changes: CE => EE
+
+This is a bit of a hack but ended up being the smallest change to migrate to self-hosted Enterprise Edition while
+still taking advantage of the benefits of **NOT** using the official Omnibus `gitlab-ee` image which turned
+out to be pretty painful to try to configure in a consistent way with a `sameersbn/gitlab` deployment. Plus, we
+don't want all the other junk that gets bundled in there (DB, Redis, etc..).
+
+## `gcr.io/surveyadmin-001/csats-gitlab-ee/gitlab:12.2.1-ee`
+
+Inhereited issues with this image: https://github.com/sameersbn/docker-gitlab/issues/1987
+
+* Requires a manual tweak to the ssh config and a restart of the ssh daemon.
+* See also: https://github.com/sameersbn/docker-gitlab/pull/1989#issuecomment-525496483
+
+Probably will be resolved after we next bump this image version from upstream.
+
+---
+
 [![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab)
 [![](https://images.microbadger.com/badges/image/sameersbn/gitlab.svg)](http://microbadger.com/images/sameersbn/gitlab "Get your own image badge on microbadger.com")
 
