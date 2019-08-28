@@ -7,6 +7,13 @@ don't want all the other junk that gets bundled in there (DB, Redis, etc..).
 
 ## `gcr.io/surveyadmin-001/csats-gitlab-ee/gitlab:12.2.1-ee`
 
+Build + Push:
+
+```
+docker build --pull -t gcr.io/surveyadmin-001/csats-gitlab-ee/gitlab:12.2.1-ee .
+docker push gcr.io/surveyadmin-001/csats-gitlab-ee/gitlab:12.2.1-ee
+```
+
 Inhereited issues with this image: https://github.com/sameersbn/docker-gitlab/issues/1987
 
 * Requires a manual tweak to the ssh config and a restart of the ssh daemon.
