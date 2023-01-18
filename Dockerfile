@@ -1,6 +1,6 @@
 FROM ubuntu:bionic-20200403
 
-ARG VERSION=12.10.6
+ARG VERSION=12.10.14
 
 ENV GITLAB_VERSION=${VERSION} \
     RUBY_VERSION=2.6 \
@@ -8,7 +8,7 @@ ENV GITLAB_VERSION=${VERSION} \
     GITLAB_SHELL_VERSION=12.2.0 \
     GITLAB_WORKHORSE_VERSION=8.30.1 \
     GITLAB_PAGES_VERSION=1.17.0 \
-    GITALY_SERVER_VERSION=12.10.6 \
+    GITALY_SERVER_VERSION=12.10.14 \
     GITLAB_USER="git" \
     GITLAB_HOME="/home/git" \
     GITLAB_LOG_DIR="/var/log/gitlab" \
@@ -26,6 +26,36 @@ ENV GITLAB_INSTALL_DIR="${GITLAB_HOME}/gitlab" \
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
       wget ca-certificates apt-transport-https gnupg2
+
+###################################
+# C-SATS modification (https://jira.jnj.com/browse/JATV-789), author @sunilk
+# 
+# Added two install packages: shared-mime-info libsqlite3-dev
+#
+# 1) shared-mime-info
+# ----------------------
+#   In 2021, mimemagic v0.3.6, a dependency of rails, switched its licensing to GPL, 
+#   breaking the Gitlab build for versions < v14.00-ee.  Note that a "bundle update mimemagic"
+#   is also required in the install.sh script.
+#   The issue is described here:  https://github.com/rails/rails/issues/41750
+#   The workaround is described here: https://github.com/mimemagicrb/mimemagic#dependencies
+#
+# 2) libsqlite3-dev
+# -------------------
+#   The following error was encountered when building the image and 
+#   adding libsqlite3-dev to the install appeared to fix things:
+#
+# Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
+#     current directory: /var/lib/gems/2.6.0/gems/sqlite3-1.3.13/ext/sqlite3
+# /usr/bin/ruby2.6 -I /usr/lib/ruby/2.6.0 -r ./siteconf20230123-22221-owir04.rb
+# extconf.rb
+# checking for sqlite3.h... no
+# sqlite3.h is missing. Try 'brew install sqlite3',
+# 'yum install sqlite-devel' or 'apt-get install libsqlite3-dev'
+# and check your shared library search path (the
+# location where your sqlite3 shared library is located).
+# *** extconf.rb failed ***
+###################################
 RUN set -ex && \
  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E6030699E45FA1715D88E1DF1F24 \
  && echo "deb http://ppa.launchpad.net/git-core/ppa/ubuntu bionic main" >> /etc/apt/sources.list \
@@ -48,6 +78,7 @@ RUN set -ex && \
       libpq5 zlib1g libyaml-0-2 libssl1.0.0 \
       libgdbm5 libreadline7 libncurses5 libffi6 \
       libxml2 libxslt1.1 libcurl4 libicu60 libre2-dev tzdata unzip libimage-exiftool-perl \
+      shared-mime-info libsqlite3-dev \
  && update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX \
  && locale-gen en_US.UTF-8 \
  && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales \

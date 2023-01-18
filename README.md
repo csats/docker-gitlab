@@ -1,3 +1,12 @@
+# C-SATS Forked, Changes: CE => EE
+
+There are basically two changes here that are worth noting: 
+1. install.sh: *-foss replaced with *-ee.
+2. Dockerfile and install.sh: 12.10.6 => 12.10.14 
+3. Dockerfile: installation of two packages -- `shared-mime-info` and `libsqlite3-dev` so build doesn't break
+4. install.sh: `bundle update` so that mimemagic can use the files in `shared-mime-info` and not break build
+---
+
 [![](https://images.microbadger.com/badges/image/sameersbn/gitlab.svg)](http://microbadger.com/images/sameersbn/gitlab "Get your own image badge on microbadger.com")
 
 # sameersbn/gitlab:12.10.6
