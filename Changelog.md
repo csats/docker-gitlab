@@ -1,7 +1,183 @@
 # Changelog
 
 This file only reflects the changes that are made in this image. Please refer to the upstream GitLab [CHANGELOG](
-https://gitlab.com/gitlab-org/gitlab-ce/blob/master/CHANGELOG.md) for the list of changes in GitLab.
+https://gitlab.com/gitlab-org/gitlab-foss/blob/master/CHANGELOG.md) for the list of changes in GitLab.
+
+**12.10.6**
+- gitlab: upgrade CE to v12.10.6
+
+**12.10.4**
+- updated to ubuntu:bionic-20200403
+- gitlab-workhorse: update to 8.30.1
+- sync: upstream configs
+- gitlab: upgrade to 12.10.4
+
+**12.9.5**
+- gitlab: updated to 12.9.5
+- gitlab-shell: updated to 12.2.0
+- gitaly: updated to 12.10.0
+
+**12.9.4**
+- gitlab: upgrade CE to v12.9.4
+- Update gitlab-workhorse to 8.25.2
+- Update golang to 1.13.10
+- 
+**12.9.2**
+- gitlab: upgrade CE to v12.9.2
+
+**12.9.1**
+- gitlab: upgrade CE to v12.9.1
+
+**12.9.0**
+- gitlab: upgrade CE to v12.9.0
+- replaced unicorn with puma
+- Removed `UNICORN_WORKERS`
+- Removed `UNICORN_TIMEOUT`
+- Added `PUMA_THREADS_MIN`
+- Added `PUMA_THREADS_MAX`
+- Added `PUMA_WORKERS`
+- Added `PUMA_TIMEOUT`
+
+**12.8.8**
+- gitlab: upgrade CE to v12.8.8
+
+**12.8.7**
+- gitlab: upgrade CE to v12.8.7
+
+**12.8.6**
+- gitlab: upgrade CE to v12.8.6
+
+**12.8.5**
+- gitlab: upgrade CE to v12.8.5
+
+**12.8.4**
+- gitlab: upgrade CE to v12.8.4
+
+**12.8.3**
+- gitlab: upgrade CE to v12.8.3
+
+**12.8.2**
+- gitlab: upgrade CE to v12.8.2
+
+**12.8.1**
+- gitlab: upgrade CE to v12.8.1
+
+**12.8.0**
+- gitlab: upgrade CE to v12.8.0
+- fix: ArgumentError: 'import/{{oauth2_generic_name}}' is not supported [#2101](https://github.com/sameersbn/docker-gitlab/issues/2101)
+
+**12.7.8**
+- Upgrade GitLab CE to 12.7.8
+
+**12.7.7**
+- Upgrade GitLab CE to 12.7.7
+- Add Generic OAuth Provider PR#2070
+
+**12.7.7**
+- Upgrade GitLab CE to 12.7.7
+
+**12.7.6**
+- gitlab: upgrade CE to v12.7.6
+
+**12.7.5**
+- gitlab: upgrade CE to v12.7.5
+
+**12.7.4**
+- Upgrade GitLab CE to 12.7.4
+- Update golang to 1.13.7
+- Update gitlab-pages to 1.15.0
+- Update gitlab-workhorse to 8.20.0
+- Update gitaly to 1.85.0
+
+**12.7.2**
+- Upgrade GitLab CE to 12.7.2
+
+**12.7.0**
+- Update gitlab-shell to 11.0.0
+- Upgrade GitLab CE to 12.7.0
+- Update golang to 1.13.6
+- Update gitaly to 1.83.0
+- Update gitlab-pages to 1.14.0
+- Update gitlab-workhorse to 8.19.0
+
+**12.6.4**
+- gitlab: upgrade CE to v12.6.4
+
+**12.6.3**
+- gitlab: upgrade CE to v12.6.3
+
+**12.6.2**
+- gitlab: upgrade CE to v12.6.2
+
+**12.6.1**
+- gitlab: upgrade CE to v12.6.1
+
+**12.6.0**
+- gitlab: upgrade CE to v12.6.0
+
+**12.5.7**
+- gitlab: upgrade CE to v12.5.7
+
+**12.5.6**
+- gitlab: upgrade CE to v12.5.6
+
+**12.5.5**
+- gitlab: upgrade CE to v12.5.5
+
+**12.5.4**
+- gitlab: upgrade CE to v12.5.4
+- Update golang to 1.12.14
+
+**12.5.3**
+- gitlab: upgrade CE to v12.5.3
+
+**12.5.2**
+- gitlab: upgrade CE to v12.5.2
+
+**12.5.1**
+- gitlab: upgrade CE to v12.5.1
+
+**12.5.0**
+- gitlab: upgrade CE to v12.5.0
+
+**12.4.3**
+- gitlab: upgrade CE to v12.4.3
+
+**12.4.2**
+- gitlab: upgrade CE to v12.4.2
+
+**12.4.1**
+- gitlab: upgrade CE to v12.4.1
+
+**12.4.0**
+- gitlab: upgrade CE to v12.4.0
+
+**12.3.5**
+- gitlab: upgrade CE to v12.3.5
+
+**12.3.4**
+- gitlab: upgrade CE to v12.3.4
+
+**12.3.3**
+- gitlab: upgrade CE to v12.3.3
+
+**12.3.2**
+- gitlab: upgrade CE to v12.3.2
+
+**12.3.1**
+- gitlab: upgrade CE to v12.3.1
+
+**12.3.0**
+- gitlab: upgrade CE to v12.3.0
+
+**12.2.5**
+- gitlab: upgrade CE to v12.2.5
+
+**12.2.4**
+- gitlab: upgrade CE to v12.2.4
+
+**12.2.3**
+- gitlab: upgrade CE to v12.2.3
 
 **12.2.1**
 - gitlab: upgrade CE to v12.2.1
@@ -27,7 +203,7 @@ https://gitlab.com/gitlab-org/gitlab-ce/blob/master/CHANGELOG.md) for the list o
 
 **12.1.0**
 - gitlab: upgrade CE to v12.1.0
-- Removed MySQL related information and packages. GitLab v12.1.X or greater requires only PostgreSQL. Do an Migration before upgrading to v12.1.X. For more Information have a look at the [Migration Guide](https://docs.gitlab.com/ce/update/mysql_to_postgresql.html) 
+- Removed MySQL related information and packages. GitLab v12.1.X or greater requires only PostgreSQL. Do an Migration before upgrading to v12.1.X. For more Information have a look at the [Migration Guide](https://docs.gitlab.com/ce/update/mysql_to_postgresql.html)
 
 **12.0.4**
 - gitlab: upgrade CE to v12.0.4
@@ -554,7 +730,7 @@ https://gitlab.com/gitlab-org/gitlab-ce/blob/master/CHANGELOG.md) for the list o
 
 **9.3.8**
 - gitlab: upgrade to CE v9.3.8
-- Added RE2 library to build dependencies ([issue 35342](https://gitlab.com/gitlab-org/gitlab-ce/issues/35342))
+- Added RE2 library to build dependencies ([issue 35342](https://gitlab.com/gitlab-org/gitlab-foss/issues/35342))
 
 **9.3.7**
 - gitlab: upgrade to CE v9.3.7
