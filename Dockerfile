@@ -1,6 +1,6 @@
 FROM ubuntu:bionic-20200403
 
-ARG VERSION=13.0.6
+ARG VERSION=13.0.14
 
 ENV GITLAB_VERSION=${VERSION} \
     RUBY_VERSION=2.6 \
@@ -8,7 +8,7 @@ ENV GITLAB_VERSION=${VERSION} \
     GITLAB_SHELL_VERSION=13.2.0 \
     GITLAB_WORKHORSE_VERSION=8.31.2 \
     GITLAB_PAGES_VERSION=1.18.0 \
-    GITALY_SERVER_VERSION=13.0.6 \
+    GITALY_SERVER_VERSION=13.0.14 \
     GITLAB_USER="git" \
     GITLAB_HOME="/home/git" \
     GITLAB_LOG_DIR="/var/log/gitlab" \
@@ -23,6 +23,11 @@ ENV GITLAB_INSTALL_DIR="${GITLAB_HOME}/gitlab" \
     GITLAB_BUILD_DIR="${GITLAB_CACHE_DIR}/build" \
     GITLAB_RUNTIME_DIR="${GITLAB_CACHE_DIR}/runtime"
 
+######################################################
+# @sunil
+# needed to add packages "shared-mime-info libsqlite3-dev"
+# FMI see: https://github.com/csats/docker-gitlab/commit/72faadc4e5f0989842dbe4079e7c7aea1e456a9f#diff-dd2c0eb6ea5cfc6c4bd4eac30934e2d5746747af48fef6da689e85b752f39557R31
+######################################################
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
       wget ca-certificates apt-transport-https gnupg2
@@ -48,6 +53,7 @@ RUN set -ex && \
       libpq5 zlib1g libyaml-0-2 libssl1.0.0 \
       libgdbm5 libreadline7 libncurses5 libffi6 \
       libxml2 libxslt1.1 libcurl4 libicu60 libre2-dev tzdata unzip libimage-exiftool-perl \
+      shared-mime-info libsqlite3-dev \
  && update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX \
  && locale-gen en_US.UTF-8 \
  && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales \
