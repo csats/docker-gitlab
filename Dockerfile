@@ -1,6 +1,6 @@
 FROM ubuntu:bionic-20200403
 
-ARG VERSION=13.2.1
+ARG VERSION=13.1.11
 
 ENV GITLAB_VERSION=${VERSION} \
     RUBY_VERSION=2.6 \
@@ -8,7 +8,7 @@ ENV GITLAB_VERSION=${VERSION} \
     GITLAB_SHELL_VERSION=13.4.0 \
     GITLAB_WORKHORSE_VERSION=8.37.0 \
     GITLAB_PAGES_VERSION=1.21.0 \
-    GITALY_SERVER_VERSION=13.2.1 \
+    GITALY_SERVER_VERSION=13.1.11 \
     GITLAB_USER="git" \
     GITLAB_HOME="/home/git" \
     GITLAB_LOG_DIR="/var/log/gitlab" \
@@ -48,6 +48,7 @@ RUN set -ex && \
       libpq5 zlib1g libyaml-0-2 libssl1.0.0 \
       libgdbm5 libreadline7 libncurses5 libffi6 \
       libxml2 libxslt1.1 libcurl4 libicu60 libre2-dev tzdata unzip libimage-exiftool-perl \
+      shared-mime-info libsqlite3-dev \
  && update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX \
  && locale-gen en_US.UTF-8 \
  && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales \

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-GITLAB_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-foss.git
+GITLAB_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-ee.git
 GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/-/archive/v${GITLAB_SHELL_VERSION}/gitlab-shell-v${GITLAB_SHELL_VERSION}.tar.bz2
 GITLAB_WORKHORSE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse.git
 GITLAB_PAGES_URL=https://gitlab.com/gitlab-org/gitlab-pages.git
@@ -64,14 +64,30 @@ exec_as_git git config --global gc.auto 0
 exec_as_git git config --global repack.writeBitmaps true
 exec_as_git git config --global receive.advertisePushOptions true
 
-# shallow clone gitlab-foss
-echo "Cloning gitlab-foss v.${GITLAB_VERSION}..."
-exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
+# shallow clone gitlab-ee
+echo "Cloning gitlab-ee v.${GITLAB_VERSION}..."
+exec_as_git git clone -q -b v${GITLAB_VERSION}-ee --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
 
-if [[ -d "${GITLAB_BUILD_DIR}/patches" ]]; then
-echo "Applying patches for gitlab-foss..."
-exec_as_git git -C ${GITLAB_INSTALL_DIR} apply --ignore-whitespace < ${GITLAB_BUILD_DIR}/patches/*.patch
-fi
+###################################################################
+# @sunilk
+# NOTE: this code applies what appears to be a non-applicable patch:
+#
+# if [[ -d "${GITLAB_BUILD_DIR}/patches" ]]; then
+# echo "Applying patches for gitlab-ee..."
+# exec_as_git git -C ${GITLAB_INSTALL_DIR} apply --ignore-whitespace < ${GITLAB_BUILD_DIR}/patches/*.patch
+# fi
+#
+#
+# and results in the following build-error:
+#
+# Applying patches for gitlab-ee...
+# error: patch failed: lib/feature.rb:33
+# error: lib/feature.rb: patch does not apply
+#
+# Speculate that it's needed for sameersbn/docker-gitlab:13.2.1-foss,
+# This commit pertains to csats/docker-gitlab:13.1.11-ee,
+# though it is built from sameersbn/docker-gitlab:13.2.1-foss/8411b944e445f3eeb2f73bbfffcc6ccb34114b62
+###################################################################
 
 GITLAB_SHELL_VERSION=${GITLAB_SHELL_VERSION:-$(cat ${GITLAB_INSTALL_DIR}/GITLAB_SHELL_VERSION)}
 GITLAB_WORKHORSE_VERSION=${GITLAB_WORKHOUSE_VERSION:-$(cat ${GITLAB_INSTALL_DIR}/GITLAB_WORKHORSE_VERSION)}
@@ -144,6 +160,8 @@ exec_as_git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_
 exec_as_git sed -i 's/db:reset/db:setup/' ${GITLAB_INSTALL_DIR}/lib/tasks/gitlab/setup.rake
 
 cd ${GITLAB_INSTALL_DIR}
+
+bundle update mimemagic
 
 # install gems, use local cache if available
 if [[ -d ${GEM_CACHE_DIR} ]]; then
