@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-GITLAB_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-foss.git
+GITLAB_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-ee.git
 GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/-/archive/v${GITLAB_SHELL_VERSION}/gitlab-shell-v${GITLAB_SHELL_VERSION}.tar.bz2
 GITLAB_WORKHORSE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse.git
 GITLAB_PAGES_URL=https://gitlab.com/gitlab-org/gitlab-pages.git
@@ -64,17 +64,21 @@ exec_as_git git config --global gc.auto 0
 exec_as_git git config --global repack.writeBitmaps true
 exec_as_git git config --global receive.advertisePushOptions true
 
-# shallow clone gitlab-foss
-echo "Cloning gitlab-foss v.${GITLAB_VERSION}..."
-exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
+# shallow clone gitlab-ee
+echo "Cloning gitlab-ee v.${GITLAB_VERSION}..."
+exec_as_git git clone -q -b v${GITLAB_VERSION}-ee --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
 
 if [[ -d "${GITLAB_BUILD_DIR}/patches" ]]; then
-echo "Applying patches for gitlab-foss..."
+echo "Applying patches for gitlab-ee..."
 exec_as_git git -C ${GITLAB_INSTALL_DIR} apply --ignore-whitespace < ${GITLAB_BUILD_DIR}/patches/*.patch
 fi
 
 GITLAB_SHELL_VERSION=${GITLAB_SHELL_VERSION:-$(cat ${GITLAB_INSTALL_DIR}/GITLAB_SHELL_VERSION)}
-GITLAB_WORKHORSE_VERSION=${GITLAB_WORKHOUSE_VERSION:-$(cat ${GITLAB_INSTALL_DIR}/GITLAB_WORKHORSE_VERSION)}
+# GITLAB_WORKHORSE_VERSION=${GITLAB_WORKHOUSE_VERSION:-$(cat ${GITLAB_INSTALL_DIR}/GITLAB_WORKHORSE_VERSION)}
+# @sunil.  tries to pull 8.59.3, which doesn't exist.  
+# see: https://gitlab.com/gitlab-org/gitlab-workhorse/-/tags?search=8.59&sort=updated_desc
+# harcoding it to 8.59.2
+GITLAB_WORKHORSE_VERSION=8.59.2
 GITLAB_PAGES_VERSION=${GITLAB_PAGES_VERSION:-$(cat ${GITLAB_INSTALL_DIR}/GITLAB_PAGES_VERSION)}
 
 # download golang
