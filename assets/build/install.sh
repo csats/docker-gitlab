@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-GITLAB_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-foss.git
+GITLAB_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-ee.git
 GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/-/archive/v${GITLAB_SHELL_VERSION}/gitlab-shell-v${GITLAB_SHELL_VERSION}.tar.bz2
 GITLAB_PAGES_URL=https://gitlab.com/gitlab-org/gitlab-pages.git
 GITLAB_GITALY_URL=https://gitlab.com/gitlab-org/gitaly.git
@@ -78,12 +78,12 @@ exec_as_git git config --global repack.writeBitmaps true
 exec_as_git git config --global receive.advertisePushOptions true
 exec_as_git git config --global advice.detachedHead false
 
-# shallow clone gitlab-foss
-echo "Cloning gitlab-foss v.${GITLAB_VERSION}..."
-exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
+# shallow clone gitlab-ee
+echo "Cloning gitlab-ee v.${GITLAB_VERSION}..."
+exec_as_git git clone -q -b v${GITLAB_VERSION}-ee --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
 
 if [[ -d "${GITLAB_BUILD_DIR}/patches" ]]; then
-echo "Applying patches for gitlab-foss..."
+echo "Applying patches for gitlab-ee..."
 exec_as_git git -C ${GITLAB_INSTALL_DIR} apply --ignore-whitespace < ${GITLAB_BUILD_DIR}/patches/*.patch
 fi
 
